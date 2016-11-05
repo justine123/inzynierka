@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+    {% block content %}
+        <h2 class="text-align-center">Log in</h2>
+        <br />
+            <form id="login-form" action="" method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <label for="id_username" class="col-sm-3 control-label">Username</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="username" value="" size="30" id="id_username"/>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <label for="id_password" class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-4">
+                        <input type="password" name="password" value="" size="30" id="id_password"/>
+                    </div>
+                </fieldset>
+                <div class="col-sm-2">
+                    <br />
+                    <input class="btn btn-primary btn-lg" type="submit" value="Login" >
+                </div>
+            </form>
+    {% endblock %}

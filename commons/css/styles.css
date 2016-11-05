@@ -1,0 +1,30 @@
+#body {
+    background-color:#d9edf7;
+}
+h2 {
+    font-size:300%;
+}
+p {
+    font-size: 160%;
+    margin-left:70px;
+}
+button {
+    font-weight: bold;
+    font-size: 150%;
+}
+.text-align-center {
+    text-align: center;
+    margin-top: 20px;
+}
+form {
+    margin: 0 auto;
+    width:500px;
+}
+.messages {
+    text-align: center;
+    padding-left: 0;
+}
+#logoutbutton {
+    text-align:center;
+    display:block;
+}
