@@ -1,5 +1,5 @@
-import logging
 import datetime
+import logging
 
 import googlemaps
 from chartit import DataPool, Chart
@@ -35,11 +35,10 @@ def map_view(request):
         popup = '%s; sensor_id = %i' % (localisation, sensor_id)
         folium.Marker([coordinates['lat'], coordinates['lng']], popup=popup).add_to(sensor_map)
     sensor_map.save('templates/map.html')
-    # get_data_from_rpi()
     return render_to_response('sensors_map.html')
 
 
-@login_required
+@login_required(login_url='/login/')
 def time_chart_view(request):
     """
     User logged to sensor can see its data represented by charts
@@ -49,6 +48,7 @@ def time_chart_view(request):
         terms = ['date']
         form = ChooseAxisForm(request.POST)
         if form.is_valid():
+            # get data from checkboxes
             axis = request.POST.get("axis-checkbox", None)
             if axis in ["temperature"]:
                 terms.append('temperature')
@@ -62,6 +62,8 @@ def time_chart_view(request):
                 terms.append('pressure')
             if axis in ["wind_speed"]:
                 terms.append('wind_speed')
+
+            # get data from dropdown
             time = form.data['time']
             if time == 'all':
                 source = Entry.objects.filter(user=request.user)
@@ -72,29 +74,22 @@ def time_chart_view(request):
             if time == 'day':
                 source = Entry.objects.filter(user=request.user, date=datetime.date.today())
         else:
-            terms = ['date', 'temperature', 'humidity']
+            terms = ['date', 'temperature', 'humidity', 'pm25', 'pm10', 'pressure', 'wind_speed']
     else:
         form = ChooseAxisForm()
-        terms = ['date', 'temperature', 'humidity', 'pm25', 'pm10']
+        terms = ['date', 'temperature', 'humidity', 'pm25', 'pm10', 'pressure', 'wind_speed']
 
-    # Step 1: Create a DataPool with the data we want to retrieve.
-    weather_data = DataPool(series=[{'options': {'source': source},
-                                     'terms': terms
-                                     }])
-
-    # Step 2: Create the Chart object
+    weather_data = DataPool(series=[{'options': {'source': source}, 'terms': terms}])
     time_chart = Chart(datasource=weather_data, series_options=[{'options': {
         'type': 'line',
         'stacking': False},
         'terms': {'date': terms[1:]}}],  # everything but date
                        chart_options={'title': {'text': 'Weather Data'},
                                       'xAxis': {'title': {'text': 'Date'}}})
-
-    # Step 3: Send the chart object to the template.
     return render(request, 'time_chart.html', {'time_chart': time_chart, 'form': form})
 
 
-@login_required
+@login_required(login_url='/login/')
 def correlation_chart_view(request):
     """
     User logged to sensor can see its data represented by charts
@@ -103,8 +98,11 @@ def correlation_chart_view(request):
     if request.method == 'POST':
         form = ChooseCorrelationForm(request.POST)
         if form.is_valid():
+            # get data from dropdown
             axis_x = form.data['axis-x']
             terms.append(axis_x)
+
+            # get data from checkboxes
             axis = request.POST.get("axis-checkbox", None)
             if axis in ["temperature"]:
                 terms.append('temperature')
@@ -118,24 +116,18 @@ def correlation_chart_view(request):
                 terms.append('pressure')
             if axis in ["wind_speed"]:
                 terms.append('wind_speed')
-
+        else:
+            terms = ['temperature', 'pm25', 'pm10']
     else:
         form = ChooseCorrelationForm()
-        terms = ['temperature', 'humidity']  # some default values
+        terms = ['temperature', 'pm25', 'pm10']  # some default values
 
-    # Step 1: Create a DataPool with the data we want to retrieve.
-    # TODO: dane z konkretnego jednego czujnika!!!
-    weather_data = DataPool(series=[{'options': {'source': Entry.objects.all()},
-                                     'terms': terms
-                                     }])
-    # Step 2: Create the Chart object
+    weather_data = DataPool(series=[{'options': {'source': Entry.objects.all()}, 'terms': terms}])
     correlation_chart = Chart(datasource=weather_data, series_options=[{'options': {
         'type': 'line',
         'stacking': False},
-        'terms': {terms[0]: [terms[1]]}}],  # axis, chosen with form
+        'terms': {terms[0]: terms[1:]}}],  # category for axis x and multiple values for axis y
                               chart_options={'title': {'text': 'Weather Data'}})
-
-    # Step 3: Send the chart object to the template.
     return render(request, 'correlation_chart.html', {'correlation_chart': correlation_chart, 'form': form})
 
 
@@ -150,12 +142,10 @@ class LoginView(SuccessMessageMixin, FormView):
         return reverse('index')
 
     def form_valid(self, form):
-        import pdb;        pdb.set_trace()
         login(self.request, form.get_user())
         return super(LoginView, self).form_valid(form)
 
     def form_invalid(self, form):
-        import pdb;        pdb.set_trace()
         messages.warning(self.request, "Fill all the fields in form with correct data!")
         return super(LoginView, self).form_invalid(form)
 

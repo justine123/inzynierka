@@ -3,17 +3,16 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class Sensor(models.Model):
+class Sensor(AbstractUser):
     """
     Sensor, that has unique id, localisation, username & password
     It inherits after AbstractUser class because it's actually a model of user that logs in to the system
     """
     sensor_id = models.IntegerField(null=False)
     localisation = models.CharField(max_length=100)
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=25)
+    password = models.CharField(max_length=100)
 
-    # USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'username'
 
 
 class Entry(models.Model):

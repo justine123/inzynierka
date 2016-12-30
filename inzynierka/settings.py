@@ -132,4 +132,4 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'commons'),
 )
 
-# AUTH_USER_MODEL = 'strona.Sensor'
+AUTH_USER_MODEL = 'strona.Sensor'
