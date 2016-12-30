@@ -1,5 +1,6 @@
 #body {
     background-color:#d9edf7;
+    padding: 0px 16px;
 }
 h2 {
     font-size:300%;
@@ -12,19 +13,43 @@ button {
     font-weight: bold;
     font-size: 150%;
 }
+
 .text-align-center {
     text-align: center;
     margin-top: 20px;
 }
 form {
     margin: 0 auto;
-    width:500px;
+    width: 500px;
 }
-.messages {
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+    color: black;
+}
+
+li a {
+    display: block;
+    color: black;
     text-align: center;
-    padding-left: 0;
+    padding: 14px 16px;
+    text-decoration: none;
 }
-#logoutbutton {
-    text-align:center;
-    display:block;
+
+li a:hover {
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+}
+
+#container-fluid {
+    font-size: 250%;
+    padding: 16px;
 }

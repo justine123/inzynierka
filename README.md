@@ -1,7 +1,5 @@
-Webpage for my engineer's thesis. 
-On Raspberry PI there are sensors, that measure temperature, humidity, ashes etc. 
-Measurements are sent to the webpage and then processed. 
-============================================================================================================================================================================
+Webpage for my engineer's thesis.  On Raspberry PI there are sensors, that measure temperature, humidity, ashes etc.  Measurements are sent to the webpage and then processed. 
+==============================================================================================================================================================================
 
 Installation
 ============
@@ -32,10 +30,20 @@ workon inzynierka
 ```
 * runserver:
 ```./manage.py runserver```
+* run tasks in the background (in another terminal tab):
+```
+python manage.py process_tasks
+```
 * open new tab in your web browser and go to address: http://127.0.0.1:8000/
 
 
 Using the app
 ============
 
-TODO!
+TODO!!!
+
+
+Testing
+============
+
+TODO!!!

@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+    {% block content %}
+    <h4 class="text-align-center">Correlation chart, that shows one weather condition as a function of another one.</h4>
+    <br/>
+    {% load chartit %}
+    {{ correlation_chart|load_charts:"chart" }}
 
-</body>
-</html>
+        <div id='choose_axis' class="col-md-3">
+            <form action="/correlation_chart/" method="post">
+                {% csrf_token %}
+                Choose category for x axis: <br>
+                <select name="axis-x">
+                    <option selected value="temperature"> Temperature </option>
+                    <option value="humidity"> Humidity </option>
+                    <option value="pm25"> PM 2.5 </option>
+                    <option value="pm10"> PM 10 </option>
+                    <option value="pressure"> Pressure </option>
+                    <option value="wind_speed"> Wind speed </option>
+                </select> <br><br>
+                Choose which categories to show on y axis: <br>
+                <input name="axis-checkbox" type=checkbox value="temperature"/> Temperature <br>
+                <input name="axis-checkbox" type=checkbox value="humidity"/> Humidity <br>
+                <input name="axis-checkbox" type=checkbox value="pm25"/> PM 2.5 <br>
+                <input name="axis-checkbox" type=checkbox value="pm10"/> PM 10 <br>
+                <input name="axis-checkbox" type=checkbox value="pressure"/> Pressure <br>
+                <input name="axis-checkbox" type=checkbox value="wind_speed"/> Wind speed <br> <br>
+                <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+            </form>
+        </div>
+        <div id='chart' class="col-md-9 "> Chart will be rendered here</div>
+    {% endblock %}

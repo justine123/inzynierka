@@ -1,17 +1,30 @@
 {% extends "base.html" %}
     {% block content %}
-        <h2 class="text-align-center">Timer for Redmine</h2>
-        <br />
-        {% load chartit %}
-        {{ charts|load_charts:"container" }}
+    <h4 class="text-align-center">Time chart, showing how pollution and weather conditions changed in time.</h4><br/>
+    {% load chartit %}
+    {{ time_chart|load_charts:"chart" }}
 
-        <div id='container'> Chart will be rendered here </div>
+        <div id='choose_axis' class="col-md-3">
+            Choose which axis to show on chart: <br>
+            <form id="choose-axis-form" action = "/time_chart/" method="POST">
+                {% csrf_token %}
+                <input name="axis-checkbox" type=checkbox value="temperature"/> Temperature <br>
+                <input name="axis-checkbox" type=checkbox value="humidity"/> Humidity <br>
+                <input name="axis-checkbox" type=checkbox value="pm25"/> PM 2.5 <br>
+                <input name="axis-checkbox" type=checkbox value="pm10"/> PM 10 <br>
+                <input name="axis-checkbox" type=checkbox value="pressure"/> Pressure <br>
+                <input name="axis-checkbox" type=checkbox value="wind_speed"/> Wind speed <br>
+                <br>
 
-
-        <form action="" method="post">
-            {# This will display the radio button HTML for you #}
-            {{ form.as_p }}
-            {# You'll need a submit button or similar here to actually send the form #}
-        </form>
-        <input class="btn btn-primary btn-lg" type="submit" value="Change displayed categories" >
+                Choose time range: <br>
+                <select name="time">
+                    <option selected value="all">All the time</option>
+                    <option value="week">Last week</option>
+                    <option value="day">Last day</option>
+                </select>
+                <br><br>
+                <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+            </form>
+        </div>
+        <div id='chart' class="col-md-9"> Chart will be rendered here</div>
     {% endblock %}

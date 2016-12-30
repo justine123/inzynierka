@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="text-align-center">Welcome to my engineer's thesis</h2>
+    <div id="welcome-text"> <h4>
+        On the webpage there are maps ang charts showing air pollution, measured by sensors connected to Raspberry Pi. <br>
+        From the maps and charts user can see its possible dependencies from other atmospheric conditions.
+        For now, there is used only one set of Raspberry Pi + sensors, but there will be more in different points of the city. <br>
+        Map of all the sensors is available below. <br>
+        More details about the sensor data will be available after <a href="/login">logging in</a>. <br><br>
+    </h4></div>
+    {% include "map.html" %}
+
+{% endblock %}

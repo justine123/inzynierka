@@ -1,11 +1,19 @@
 from django import forms
 
-DISPLAY_CHOICES = (
-    ("temperature", "Display Temperature"),
-    ("humidity", "Display Humidity"),
-    ("pollution", "Display Pollution")
-)
+
+class ChooseAxisForm(forms.Form):
+    temperature = forms.CheckboxInput()
+    humidity = forms.CheckboxInput()
+    wind_speed = forms.CheckboxInput()
+    pm25 = forms.CheckboxInput()
+    pm10 = forms.CheckboxInput()
+    pressure = forms.CheckboxInput()
 
 
-class EntryForm(forms.Form):
-    display_type = forms.ChoiceField(widget=forms.RadioSelect, choices=DISPLAY_CHOICES)
+class ChooseCorrelationForm(forms.Form):
+    temperature = forms.CheckboxInput()
+    humidity = forms.CheckboxInput()
+    wind_speed = forms.CheckboxInput()
+    pm25 = forms.CheckboxInput()
+    pm10 = forms.CheckboxInput()
+    pressure = forms.CheckboxInput()
